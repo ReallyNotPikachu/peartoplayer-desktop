@@ -12,6 +12,8 @@ void loadUI();
 void drawSongIcons();
 void drawUI();
 void updateUI();
+void createSongBoxes();
+void startPlayingSong(int id);
 
 typedef enum {
     SONGSELECT,

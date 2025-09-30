@@ -29,9 +29,10 @@ void initSongList() {
   puts("[info] songlist ready!");
 }
 
-// calculate formatted names, three lines of 11 chars each for 33 chars max
+// calculate formatted names, three lines of 11 chars each for 33 chars maxs
 // possible optimization: calculate how much memory we need from malloc
 // there's no way this function works (update I worked it out on paper it works)
+
 void calculateFormattedNames(int fromIdx) {
   // i wrote this while hugging a blahaj
   for (int i = fromIdx; i < songs.count; i++) {
@@ -102,7 +103,6 @@ void calculateFormattedNames(int fromIdx) {
     }
   }
 }
-
 void clearSongList() {
   for (int i = 0; i < songs.count; i++) {
     UnloadMusicStream(songs.songs[i]);

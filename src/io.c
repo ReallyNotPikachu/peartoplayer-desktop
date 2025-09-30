@@ -5,6 +5,7 @@
 #include <string.h>
 #include <raylib.h>
 #include <sys/stat.h>
+#include "ui.h"
 #include "utils.h"
 #include "songlist.h"
 extern SongList songs;
@@ -80,6 +81,7 @@ void loadDroppedSongs() {
       }
     }
     calculateFormattedNames(0);
+    createSongBoxes();
     UnloadDroppedFiles(list);
 }
 //given a filepath from FilePathList
