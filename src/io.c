@@ -16,11 +16,11 @@ int isDirectory(const char *path) {
   return S_ISDIR(statbuf.st_mode);
 }
 //if it fails it unloads the sound
-void tryToLoadSong(char *name, Sound sound) {
-  if (IsSoundValid(sound)) {
+void tryToLoadSong(char *name, Music sound) {
+  if (IsMusicValid(sound)) {
     addSongToSongs(sound, name);
   } else {
-    UnloadSound(sound);
+    UnloadMusicStream(sound);
   }
 }
 //gets a string array of all filepaths from absolutel filepath 
@@ -58,7 +58,7 @@ void loadADirectory(const char* path) {
       fullPath = appendStrs(nameWithSlash, files.strs[i]);
       free(nameWithSlash);
     }
-    tryToLoadSong(files.strs[i], LoadSound(fullPath));
+    tryToLoadSong(files.strs[i], LoadMusicStream(fullPath));
     printf("Loaded song at: %s\n",fullPath);
     free(fullPath);
   }
@@ -74,9 +74,12 @@ void loadDroppedSongs() {
         char* temp = malloc((sizeof(char) * strlen(list.paths[i])) + sizeof(char));
         strcpy(temp, list.paths[i]);
         char* name = getSongNameWithoutSlashes(temp);
-        tryToLoadSong(name, LoadSound(temp));
+        printf("%s\n",temp);
+        tryToLoadSong(name, LoadMusicStream(temp));
+        free(temp);
       }
     }
+    calculateFormattedNames(0);
     UnloadDroppedFiles(list);
 }
 //given a filepath from FilePathList

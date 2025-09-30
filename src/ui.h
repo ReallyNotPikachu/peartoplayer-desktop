@@ -15,7 +15,7 @@ void updateUI();
 typedef struct {
     //logo.png
     Texture2D logo;
-    Texture2D playButton; //could juse use raylibs built in functions tho
+    Texture2D playButton; 
     Texture2D settings;
     Texture2D playlist;
     Texture2D playMenu;

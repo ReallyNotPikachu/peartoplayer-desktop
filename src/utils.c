@@ -18,8 +18,10 @@ char *getSongNameWithoutSlashes(char *song) {
   // THIS IS TORTURE
   int len = strlen(song);
   int idx = findLastIndexOfChar(song, '/') + 1;
+  int dotIdx = findLastIndexOfChar(song, '.');
   // I CANT BE BOTHERED TO ADD THE NULL TERMINATOR
   char *newStr = calloc(sizeof(char), len + idx + 1);
+  //could use memcpy or memmove here
   for (int i = idx; i < len; i++) {
     newStr[i - idx] = song[i];
   }

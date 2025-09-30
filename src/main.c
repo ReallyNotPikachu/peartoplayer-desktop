@@ -30,7 +30,7 @@ extern SongList songs;
 
 
 // forward declarations
-void addSongToSongs(Sound song, char *name);
+void addSongToSongs(Music song, char *name);
 // mutable statics, take that rust
 
 void drawDragDialogue() {
@@ -117,11 +117,12 @@ void loop() {
 }
 
 void init() {
-  songs.songs = malloc(sizeof(Sound) * 10);
+  songs.songs = malloc(sizeof(Music) * 10);
+  songs.formattedNames = malloc(sizeof(char*) * 10);
   songs.names = malloc(sizeof(char*) * 10);
   songs.capacity = 10;
   songs.count = 0;
-  SetConfigFlags(FLAG_VSYNC_HINT);
+  // SetConfigFlags(FLAG_VSYNC_HINT);
   SetConfigFlags(FLAG_WINDOW_RESIZABLE);
   InitWindow(1280, 720, "Pearto Player :P");
   InitAudioDevice();

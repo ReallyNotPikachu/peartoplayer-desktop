@@ -9,10 +9,15 @@ extern const int TARGETWIDTH;
 extern const int TARGETHEIGHT;
 extern Rectangle mouseCoordinates;
 
+typedef struct {
+  Rectangle location;
+
+}SongSelectionBox;
 // constants
 const Rectangle playRec = (Rectangle){0, 28, 27, 28};
 const Rectangle playlistRec = (Rectangle){0, 28 + 32, 27, 29};
 extern SongList songs;
+static int songIconYOffset = 40;
 const Rectangle folderRec = (Rectangle){0, 28 + (32 * 2) + 1, 27, 29};
 const Rectangle settingsRec = (Rectangle){0, 28 + (32 * 3) + 1, 27, 28};
 const Rectangle logoBox = {29, 0, 78, 28};
@@ -34,30 +39,22 @@ void drawSideMenuBarOutline() {
 }
 // 320x180
 
+//performance critical technically 
 void drawSongIcon(float x, float y, char *name) {
   const int iconSize = 50;
   // TODO optimize strings by adding length to them
   int nameLength = strlen(name);
   DrawRectangleRec((Rectangle){x, y, iconSize, iconSize}, BLACK);
-  if (MeasureText(name, 8) > 64) {
-    {
-      char temp = name[11];
-      //cut it off lol
-      name[11] = '\0';
-      DrawText(name, x, y + 52, 8, BLACK);
-      name[11] = temp;
-    }
-  } else {
     DrawText(name, x, y + 52, 8, BLACK);
-  }
 }
 
 // TODO make this actually work
 void drawSongIcons() {
+  const float scrollSpeed = 5.0f;
   const int iconPadding = 64;
   const int extraYPadding = 16;
   const int iconSize = 50;
-  const int y = 40;
+  songIconYOffset-= GetMouseWheelMove() * scrollSpeed;
   int yOffset = 0;
   for (int i, x = 0; i < songs.count; i++) {
     // move the y down every couple songs
@@ -65,9 +62,13 @@ void drawSongIcons() {
       yOffset += iconPadding + extraYPadding;
       x = 0;
     }
-    drawSongIcon(x + 40, yOffset + y , songs.names[i]);
+    drawSongIcon(x + 40, yOffset + songIconYOffset , songs.formattedNames[i]);
     x += iconPadding;
   }
+}
+
+void updateSongIcons() {
+
 }
 
 // draw select song, play button, the other two  too
