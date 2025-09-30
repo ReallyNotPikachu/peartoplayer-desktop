@@ -1,5 +1,7 @@
 CC = gcc
 
+# Note to self actually learn how to write a makefile
+
 test:
 # my code is SO BROKEN i have to compile it with march=x86-64??
 # was it defaulting to march=native?? I dont think it was?? huh??

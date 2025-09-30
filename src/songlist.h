@@ -14,4 +14,5 @@ typedef struct {
 void addSongToSongs(Music song, char *name);
 void clearSongList();
 void calculateFormattedNames(int fromIdx);
+void initSongList();
 #endif //SONGLIST_H 

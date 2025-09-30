@@ -10,7 +10,15 @@ void drawSelectFromFolder();
 void drawLoading();
 void loadUI();
 void drawSongIcons();
+void drawUI();
 void updateUI();
+
+typedef enum {
+    SONGSELECT,
+    SETTINGS,
+    PLAYLIST,
+    SONGPLAYING
+} CurrentMenu;
 ///home/notpika/Documents/peartoplayerdesktop/ui/logo.png
 typedef struct {
     //logo.png

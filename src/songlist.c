@@ -20,9 +20,18 @@ void addSongToSongs(Music song, char *name) {
   songs.count++;
 }
 
+void initSongList() {
+  songs.songs = malloc(sizeof(Music) * 10);
+  songs.formattedNames = malloc(sizeof(char *) * 10);
+  songs.names = malloc(sizeof(char *) * 10);
+  songs.capacity = 10;
+  songs.count = 0;
+  puts("[info] songlist ready!");
+}
+
 // calculate formatted names, three lines of 11 chars each for 33 chars max
-// possible optimization: calculate how much memory we need from malloc 
-// there's no way this function works
+// possible optimization: calculate how much memory we need from malloc
+// there's no way this function works (update I worked it out on paper it works)
 void calculateFormattedNames(int fromIdx) {
   // i wrote this while hugging a blahaj
   for (int i = fromIdx; i < songs.count; i++) {
@@ -32,9 +41,10 @@ void calculateFormattedNames(int fromIdx) {
     // realloc so we can insert newlines
     // cut this one off at 33;
     if (len > 28) {
-      newPtr = malloc((sizeof(char) * len) + sizeof(char) + sizeof(char) + sizeof(char));
+      newPtr = malloc((sizeof(char) * len) + sizeof(char) + sizeof(char) +
+                      sizeof(char));
       strncpy(newPtr, songs.names[i], 31);
-      //copy pasted lol
+      // copy pasted lol
       for (int x = len; x >= 18; x--) {
         newPtr[x] = newPtr[x - 1];
       }
@@ -47,12 +57,12 @@ void calculateFormattedNames(int fromIdx) {
     }
     // make this one go up to three lines
     else if (len > 18) {
-      newPtr = malloc((sizeof(char) * len) + sizeof(char) + sizeof(char) + sizeof(char));
+      newPtr = malloc((sizeof(char) * len) + sizeof(char) + sizeof(char) +
+                      sizeof(char));
       strcpy(newPtr, songs.names[i]);
       /*
       I'm not smart enough to figure out how to optimize this lol
       This is some sort of AP CSA Exam FRQ question
-
       insert newline at char 11 and char 21
       hello_
       hell_o
@@ -67,12 +77,13 @@ void calculateFormattedNames(int fromIdx) {
         newPtr[x] = newPtr[x - 1];
       }
       newPtr[9] = '\n';
-      newPtr[len+2] = '\0';
+      newPtr[len + 2] = '\0';
       songs.formattedNames[i] = newPtr;
     }
     // make this one two lines
     else if (len > 10) {
-      newPtr = (char*) malloc((sizeof(char) * len) + sizeof(char) + sizeof(char));
+      newPtr =
+          (char *)malloc((sizeof(char) * len) + sizeof(char) + sizeof(char));
       strcpy(newPtr, songs.names[i]);
       // i think i could use memmove here, instead of doing it the AP CSA way
       for (int x = len; x >= 9; x--) {
@@ -83,8 +94,9 @@ void calculateFormattedNames(int fromIdx) {
     }
     // nothing to do here as its under one line, just copy it
     else {
-      newPtr = malloc((sizeof(char) * len) + sizeof(char)+sizeof(char));
-      memcpy(newPtr, songs.names[i], sizeof(char) * len + sizeof(char)+sizeof(char));
+      newPtr = malloc((sizeof(char) * len) + sizeof(char) + sizeof(char));
+      memcpy(newPtr, songs.names[i],
+             sizeof(char) * len + sizeof(char) + sizeof(char));
       songs.formattedNames[i] = newPtr;
       continue;
     }

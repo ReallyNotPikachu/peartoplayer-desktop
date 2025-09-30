@@ -33,19 +33,9 @@ extern SongList songs;
 void addSongToSongs(Music song, char *name);
 // mutable statics, take that rust
 
-void drawDragDialogue() {
-  DrawText("Drag a file or folder!", 30, 30, 20, BLACK);
-}
 // dont know if i need this tbh
 void draw() {
-  drawSideMenuBarOutline();
-  drawLogo();
-  drawSideMenuIcons();
-  if (songs.count == 0)
-    drawDragDialogue();
-  else {
-    drawSongIcons();
-  }
+  drawUI();
 }
 
 void lateUpdate() {}
@@ -117,15 +107,11 @@ void loop() {
 }
 
 void init() {
-  songs.songs = malloc(sizeof(Music) * 10);
-  songs.formattedNames = malloc(sizeof(char*) * 10);
-  songs.names = malloc(sizeof(char*) * 10);
-  songs.capacity = 10;
-  songs.count = 0;
   // SetConfigFlags(FLAG_VSYNC_HINT);
   SetConfigFlags(FLAG_WINDOW_RESIZABLE);
   InitWindow(1280, 720, "Pearto Player :P");
   InitAudioDevice();
+  initSongList();
   target = LoadRenderTexture(TARGETWIDTH, TARGETHEIGHT);
   windowScale = GetScreenWidth() / (float)TARGETWIDTH;
   camera = (Camera2D){{0.0f, 0.0f}, {0.0f, 0.0f}, 0.0f, 1.0f};
