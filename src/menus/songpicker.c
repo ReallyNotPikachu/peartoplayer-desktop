@@ -47,11 +47,10 @@ void createSongBoxes() {
 void drawSongIcons() {
   const int extraYPadding = 16;
   for (int i = 0; i < menu.songBoxes.count; i++) {
+    //if the mouse is inside of it 
     if (CheckCollisionRecs(menu.songBoxes.boxes[i], mouseCoordinates)) {
-      DrawRectangle(menu.songBoxes.boxes[i].x - 1, menu.songBoxes.boxes->y + 1,
-                    menu.songBoxes.boxes->width + 2,
-                    menu.songBoxes.boxes[i].height + extraYPadding -2,
-                    LIGHTGRAY);
+    DrawRectangle(
+      menu.songBoxes.boxes[i].x -1, menu.songBoxes.boxes[i].y+1, menu.songBoxes.boxes[i].width +2, menu.songBoxes.boxes[i].height + extraYPadding + 12, LIGHTGRAY);
                     //if the mouse is pressed on the thingy
       if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
         
@@ -64,9 +63,11 @@ void drawSongIcons() {
 }
 
 void updateSongSelectorMenu() {
+  //my desktop's bios calls it this
+  const float mouseMovementDelta = 3.0f;
   // TODO add limits to scrolling
   //  if the mouse didn't move don't do this (battery life :D)
-  int move = GetMouseWheelMove();
+  int move = GetMouseWheelMove() * mouseMovementDelta; 
   for (int i = 0; i < menu.songBoxes.count; i++) {
     menu.songBoxes.boxes[i].y -= move;
   }

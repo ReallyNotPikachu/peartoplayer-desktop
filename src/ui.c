@@ -1,5 +1,6 @@
 #include "ui.h"
 #include "menus/songpicker.h"
+#include "menus/songplayer.h"
 #include "songlist.h"
 #include <linux/limits.h>
 #include <raylib.h>
@@ -7,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-UiTextures textures;
+extern UiTextures textures;
 extern const int TARGETWIDTH;
 extern const int TARGETHEIGHT;
 extern Rectangle mouseCoordinates;
@@ -18,7 +19,11 @@ void drawTime() {
   time_t currentTime = time(NULL);
   struct tm *timeStruct = localtime(&currentTime);
   char timeString[15];
-  sprintf(timeString, "%d:%d", timeStruct->tm_hour, timeStruct->tm_min);
+  if (timeStruct->tm_min < 10) {
+    sprintf(timeString, "%d:%d0", timeStruct->tm_hour, timeStruct->tm_min);
+  } else {
+    sprintf(timeString, "%d:%d", timeStruct->tm_hour, timeStruct->tm_min);
+  }
   DrawText(timeString, 200, 1, 28, BLACK);
 }
 
@@ -54,6 +59,7 @@ void loadUI() {
   SetSoundVolume(click, 0.25f);
   SetSoundVolume(teto, 0.25f);
   initSongSelector();
+  initSongPlayer();
 }
 // literally just free the memory then realloc it
 
@@ -82,7 +88,7 @@ void drawUI() {
       }
     } break;
     case SONGPLAYING:
-      drawSongPlaying();
+      drawSongPlayer();
       break;
     case SETTINGS:
     case PLAYLIST:
@@ -91,7 +97,7 @@ void drawUI() {
     drawSideMenuBarOutline();
     drawLogo();
     drawSideMenuIcons();
-        drawTime();
+    drawTime();
   }
 }
 
@@ -160,4 +166,3 @@ void updateUI() {
     }
   }
 }
-void drawSongPlaying() {}

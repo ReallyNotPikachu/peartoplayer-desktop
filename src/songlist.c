@@ -25,7 +25,6 @@ void initSongList() {
   songs.formattedNames = malloc(sizeof(char *) * 10);
   songs.names = malloc(sizeof(char *) * 10);
   songs.capacity = 10;
-  
   songs.count = 0;
   puts("[info] songlist ready!");
 }
@@ -35,6 +34,7 @@ void initSongList() {
 // there's no way this function works (update I worked it out on paper it works)
 
 void calculateFormattedNames(int fromIdx) {
+
   // i wrote this while hugging a blahaj
   for (int i = fromIdx; i < songs.count; i++) {
     // get the size of the name
@@ -83,6 +83,7 @@ void calculateFormattedNames(int fromIdx) {
       songs.formattedNames[i] = newPtr;
     }
     // make this one two lines
+    //THIS ONE IS BROKEN, REWRITE NEXT CLASS PERIOD
     else if (len > 10) {
       newPtr =
           (char *)malloc((sizeof(char) * len) + sizeof(char) + sizeof(char));

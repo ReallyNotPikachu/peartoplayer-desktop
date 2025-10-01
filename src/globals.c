@@ -12,6 +12,7 @@ RenderTexture target;
 float windowScale = 0.0f;
 Rectangle mouseCoordinates;
 FilePathList files;
+UiTextures textures;
 int filePathCounter = 0;
 SongList songs;
 Sound teto;

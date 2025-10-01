@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "menus/songplayer.h"
 #include <sys/stat.h>
 #include <sys/types.h>
 // sorry windows!

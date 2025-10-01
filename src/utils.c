@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+
 int findLastIndexOfChar(const char *str, char target) {
   int idx = -1;
   for (int i = 0; i < strlen(str); i++) {
@@ -11,8 +12,6 @@ int findLastIndexOfChar(const char *str, char target) {
   }
   return idx;
 }
-
-
 
 char *getSongNameWithoutSlashes(char *song) {
   // THIS IS TORTURE

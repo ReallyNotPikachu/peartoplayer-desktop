@@ -67,6 +67,8 @@ void loadADirectory(const char* path) {
 }
 
 void loadDroppedSongs() {
+  int previousCount = songs.count;
+  printf("Previous song count: %d\n", previousCount);
     FilePathList list = LoadDroppedFiles();
     for(int i = 0; i < list.count; i++) {
       if(isDirectory(list.paths[i])){
@@ -80,7 +82,7 @@ void loadDroppedSongs() {
         free(temp);
       }
     }
-    calculateFormattedNames(0);
+    calculateFormattedNames(previousCount);
     createSongBoxes();
     UnloadDroppedFiles(list);
 }
