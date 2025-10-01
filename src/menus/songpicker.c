@@ -5,6 +5,9 @@
 #include <stdlib.h>
 static SongPickerMenu menu;
 extern SongList songs;
+extern Rectangle mouseCoordinates;
+extern Sound teto;
+extern Sound click;
 // load the menu's stuff
 
 void addSongToMenu(Rectangle rec, int id) {
@@ -42,19 +45,29 @@ void createSongBoxes() {
 }
 
 void drawSongIcons() {
+  const int extraYPadding = 16;
   for (int i = 0; i < menu.songBoxes.count; i++) {
+    if (CheckCollisionRecs(menu.songBoxes.boxes[i], mouseCoordinates)) {
+      DrawRectangle(menu.songBoxes.boxes[i].x - 1, menu.songBoxes.boxes->y + 1,
+                    menu.songBoxes.boxes->width + 2,
+                    menu.songBoxes.boxes[i].height + extraYPadding -2,
+                    LIGHTGRAY);
+                    //if the mouse is pressed on the thingy
+      if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+        
+      }
+    }
     DrawRectangleRec(menu.songBoxes.boxes[i], BLACK);
     DrawText(songs.formattedNames[i], menu.songBoxes.boxes[i].x,
-             menu.songBoxes.boxes[i].y+51, 8, BLACK);
+             menu.songBoxes.boxes[i].y + 51, 8, BLACK);
   }
 }
 
 void updateSongSelectorMenu() {
-  // if the mouse didn't move don't do this (battery life :D)
+  // TODO add limits to scrolling
+  //  if the mouse didn't move don't do this (battery life :D)
   int move = GetMouseWheelMove();
-  if (move == 0)
-    return;
-  for(int i = 0; i < menu.songBoxes.count; i++) {
+  for (int i = 0; i < menu.songBoxes.count; i++) {
     menu.songBoxes.boxes[i].y -= move;
   }
 }

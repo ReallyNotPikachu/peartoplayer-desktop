@@ -6,13 +6,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 UiTextures textures;
 extern const int TARGETWIDTH;
 extern const int TARGETHEIGHT;
 extern Rectangle mouseCoordinates;
 extern CurrentMenu currentMenu;
 extern int currentSongPlaying;
-// if clicked call playSong with the arguement of the index of the song (the id)
+// make sure the window is not hidden before calling cuz optimization
+void drawTime() {
+  time_t currentTime = time(NULL);
+  struct tm *timeStruct = localtime(&currentTime);
+  char timeString[15];
+  sprintf(timeString, "%d:%d", timeStruct->tm_hour, timeStruct->tm_min);
+  DrawText(timeString, 200, 1, 28, BLACK);
+}
 
 // constants
 const Rectangle playRec = (Rectangle){0, 28, 27, 28};
@@ -22,8 +30,8 @@ static int songIconYOffset = 40;
 const Rectangle folderRec = (Rectangle){0, 28 + (32 * 2) + 1, 27, 29};
 const Rectangle settingsRec = (Rectangle){0, 28 + (32 * 3) + 1, 27, 28};
 const Rectangle logoBox = {29, 0, 78, 28};
-Sound teto;
-Sound click;
+extern Sound teto;
+extern Sound click;
 // load the uiTextures
 
 void startPlayingSong(int id) {
@@ -43,6 +51,8 @@ void loadUI() {
   textures.playButton = LoadTexture("ui/play.png");
   teto = LoadSound("sfx/error.mp3");
   click = LoadSound("sfx/click.wav");
+  SetSoundVolume(click, 0.25f);
+  SetSoundVolume(teto, 0.25f);
   initSongSelector();
 }
 // literally just free the memory then realloc it
@@ -62,24 +72,27 @@ void drawDragDialogue() {
   DrawText("Drag a file or folder!", 30, 30, 20, BLACK);
 }
 void drawUI() {
-  switch (currentMenu) {
-  case SONGSELECT: {
-    if (songs.count == 0)
-      drawDragDialogue();
-    else {
-      drawSongIcons();
+  if (!IsWindowHidden()) {
+    switch (currentMenu) {
+    case SONGSELECT: {
+      if (songs.count == 0)
+        drawDragDialogue();
+      else {
+        drawSongIcons();
+      }
+    } break;
+    case SONGPLAYING:
+      drawSongPlaying();
+      break;
+    case SETTINGS:
+    case PLAYLIST:
+      break;
     }
-  } break;
-  case SONGPLAYING:
-    drawSongPlaying();
-    break;
-  case SETTINGS:
-  case PLAYLIST:
-    break;
+    drawSideMenuBarOutline();
+    drawLogo();
+    drawSideMenuIcons();
+        drawTime();
   }
-  drawSideMenuBarOutline();
-  drawLogo();
-  drawSideMenuIcons();
 }
 
 // draw select song, play button, the other two  too

@@ -3,7 +3,7 @@ CC = gcc
 files := ./src/*.c
 files += ./src/menus/*.c
 objects := $(wildcard *.o)
-CFLAGS := -O0 -ggdb
+CFLAGS := -O0 -ggdb -std=c17
 LIBRARIES := -lm -lraylib
 
 # I still have no idea how to use a makefile lol

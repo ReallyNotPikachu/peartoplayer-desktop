@@ -14,3 +14,5 @@ Rectangle mouseCoordinates;
 FilePathList files;
 int filePathCounter = 0;
 SongList songs;
+Sound teto;
+Sound click;
