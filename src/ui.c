@@ -1,4 +1,5 @@
 #include "ui.h"
+#include "menus/songpicker.h"
 #include "songlist.h"
 #include <linux/limits.h>
 #include <raylib.h>
@@ -31,7 +32,6 @@ void startPlayingSong(int id) {
   PlayMusicStream(songs.songs[id]);
 }
 // adds the song's box to the boxes array
-
 // also inits the song interaction boxes!
 void loadUI() {
   textures.logo = LoadTexture("ui/logo.png");
@@ -43,29 +43,25 @@ void loadUI() {
   textures.playButton = LoadTexture("ui/play.png");
   teto = LoadSound("sfx/error.mp3");
   click = LoadSound("sfx/click.wav");
-
+  initSongSelector();
 }
 // literally just free the memory then realloc it
 
 void drawSideMenuBarOutline() {
   // going off the logo,i want 1px margin between that and the top
+  DrawRectangle(0, 0, TARGETWIDTH, 28, WHITE);
   DrawRectangleLines(28, 28, TARGETWIDTH, TARGETHEIGHT, BLACK);
 }
 // 320x180
 
 // performance critical
 
-
 // TODO make this actually work
-
 
 void drawDragDialogue() {
   DrawText("Drag a file or folder!", 30, 30, 20, BLACK);
 }
 void drawUI() {
-  drawSideMenuBarOutline();
-  drawLogo();
-  drawSideMenuIcons();
   switch (currentMenu) {
   case SONGSELECT: {
     if (songs.count == 0)
@@ -77,7 +73,13 @@ void drawUI() {
   case SONGPLAYING:
     drawSongPlaying();
     break;
+  case SETTINGS:
+  case PLAYLIST:
+    break;
   }
+  drawSideMenuBarOutline();
+  drawLogo();
+  drawSideMenuIcons();
 }
 
 // draw select song, play button, the other two  too
@@ -112,7 +114,7 @@ void updateUI() {
   switch (currentMenu) {
 
   case SONGSELECT:
-    updateSongIconMenu();
+    updateSongSelectorMenu();
     break;
   case SETTINGS:
   case PLAYLIST:

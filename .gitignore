@@ -1,2 +1,4 @@
 main
 homework
+*.o
+main*

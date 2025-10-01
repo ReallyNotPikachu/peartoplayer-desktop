@@ -1,82 +1,60 @@
+#include "songpicker.h"
 #include "../songlist.h"
 #include "../ui.h"
 #include <raylib.h>
 #include <stdlib.h>
+static SongPickerMenu menu;
 extern SongList songs;
-typedef struct {
-  int id;
-  Rectangle rec;
-  void (*playSong)(int);
-} SongInteractionBox;
-typedef struct {
-  SongInteractionBox *boxes;
-  float yOffset;
-  int capacity;
-  int count;
-} InteractionBoxes;
-static InteractionBoxes boxes;
-void drawSongIcon(int id) {
-  const int iconSize = 50;
-  // // TODO optimize strings by adding length to them
-  // int nameLength = strlen(name);
-  // DrawRectangleRec((Rectangle){x, y, iconSize, iconSize}, BLACK);
-  // DrawText(name, x, y + 52, 8, BLACK);
-  DrawRectangleRec(boxes.boxes[id].rec, BLACK);
-  DrawText(songs.formattedNames[id], boxes.boxes[id].rec.x,
-           boxes.boxes[id].rec.y, 8, BLACK);
-}
+// load the menu's stuff
 
-void addSongInteractionBox(int id, Rectangle rec) {
-  if (boxes.capacity == boxes.count) {
-    boxes.capacity *= 2;
-    boxes.boxes = realloc(sizeof(SongInteractionBox) * boxes.capacity);
+void addSongToMenu(Rectangle rec, int id) {
+  if (menu.songBoxes.capacity == menu.songBoxes.count) {
+    menu.songBoxes.capacity *= 2;
+    menu.songBoxes.boxes = realloc(menu.songBoxes.boxes,
+                                   sizeof(Rectangle) * menu.songBoxes.capacity);
+    menu.songBoxes.ids =
+        realloc(menu.songBoxes.ids, sizeof(int) * menu.songBoxes.capacity);
   }
-  boxes.boxes->rec = rec;
-  boxes.boxes->id = id;
-  boxes.boxes->playSong = startPlayingSong;
-  boxes.count++;
+  menu.songBoxes.boxes[menu.songBoxes.count] = rec;
+  menu.songBoxes.ids[menu.songBoxes.count] = id;
+  menu.songBoxes.count++;
 }
-
-void clearSongBoxes() {
-  free(boxes.boxes);
-  boxes.boxes = malloc(sizeof(SongInteractionBox) * boxes.capacity);
-}
-
 void initSongSelector() {
-  boxes.boxes = malloc(sizeof(SongInteractionBox) * 10);
-  boxes.capacity = 10;
-  boxes.count = 0;
-}
-
-void updateSongIconMenu() {
-  const float scrollSpeed = 5.0f;
-  float yOffset = GetMouseWheelMove() * scrollSpeed;
-  if (yOffset > 0) {
-    for (int i = 0; i < boxes.count; i++) {
-      boxes.boxes->rec.y -= yOffset;
-    }
-  }
+  menu.songBoxes.boxes = malloc(sizeof(Rectangle) * 10);
+  menu.songBoxes.capacity = 10;
+  menu.songBoxes.ids = malloc(sizeof(int) * menu.songBoxes.capacity);
 }
 
 void createSongBoxes() {
-  const int iconPadding = 64;
+  const int padding = 64;
   const int extraYPadding = 16;
-  const int iconSize = 50;
-  const int startAtY = 52;
-  int rowOffset = 0;
-  int xOffset = 0;
+  const int size = 50;
+  int x, y = 0;
   for (int i = 0; i < songs.count; i++) {
     if (i % 4 == 0 && i > 0) {
-      rowOffset += iconPadding + extraYPadding;
-      xOffset = 0;
-      addSongInteractionBox(i, (Rectangle){xOffset + 40, rowOffset + startAtY,
-                                           iconSize, iconSize});
-      puts("e");
+      y += padding + extraYPadding;
+      x = 0;
     }
+    Rectangle rec = {x + 40, y + extraYPadding + 25, size, size};
+    addSongToMenu(rec, i);
+    x += padding;
   }
 }
+
 void drawSongIcons() {
-  for (int i, x = 0; i < songs.count; i++) {
-    drawSongIcon(i);
+  for (int i = 0; i < menu.songBoxes.count; i++) {
+    DrawRectangleRec(menu.songBoxes.boxes[i], BLACK);
+    DrawText(songs.formattedNames[i], menu.songBoxes.boxes[i].x,
+             menu.songBoxes.boxes[i].y+51, 8, BLACK);
+  }
+}
+
+void updateSongSelectorMenu() {
+  // if the mouse didn't move don't do this (battery life :D)
+  int move = GetMouseWheelMove();
+  if (move == 0)
+    return;
+  for(int i = 0; i < menu.songBoxes.count; i++) {
+    menu.songBoxes.boxes[i].y -= move;
   }
 }

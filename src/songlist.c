@@ -25,6 +25,7 @@ void initSongList() {
   songs.formattedNames = malloc(sizeof(char *) * 10);
   songs.names = malloc(sizeof(char *) * 10);
   songs.capacity = 10;
+  
   songs.count = 0;
   puts("[info] songlist ready!");
 }
