@@ -2,3 +2,7 @@ main
 homework
 *.o
 main*
+a.out
+*.out
+*.er
+*.html

@@ -3,9 +3,9 @@
 
 void setActiveSong();
 void getNextActiveSong();
-void updateSongMenu();
+void updateSongPlayer();
 void drawSongPlayer();
 void setSongLooping();
 void initSongPlayer();
-
+void setCurrentSong(int idx);
 #endif

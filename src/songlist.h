@@ -10,6 +10,7 @@ typedef struct {
   char **names;
   //Draw this
   char **formattedNames;
+  char** filePaths;
 } SongList;
 void addSongToSongs(Music song, char *name);
 void clearSongList();

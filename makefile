@@ -8,7 +8,7 @@ LIBRARIES := -lm -lraylib
 
 # I still have no idea how to use a makefile lol
 test:
-	sccache $(CC) $(files) -o main $(LIBRARIES)
+	sccache $(CC) $(files) $(CFLAGS) -o main $(LIBRARIES)
 	./main
 clean:
 	rm *.o

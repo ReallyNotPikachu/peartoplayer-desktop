@@ -24,6 +24,7 @@ void initSongList() {
   songs.songs = malloc(sizeof(Music) * 10);
   songs.formattedNames = malloc(sizeof(char *) * 10);
   songs.names = malloc(sizeof(char *) * 10);
+  songs.filePaths = malloc(sizeof(char*) * 10);
   songs.capacity = 10;
   songs.count = 0;
   puts("[info] songlist ready!");
@@ -32,7 +33,6 @@ void initSongList() {
 // calculate formatted names, three lines of 11 chars each for 33 chars maxs
 // possible optimization: calculate how much memory we need from malloc
 // there's no way this function works (update I worked it out on paper it works)
-
 void calculateFormattedNames(int fromIdx) {
 
   // i wrote this while hugging a blahaj

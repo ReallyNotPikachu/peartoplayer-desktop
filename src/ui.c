@@ -20,7 +20,7 @@ void drawTime() {
   struct tm *timeStruct = localtime(&currentTime);
   char timeString[15];
   if (timeStruct->tm_min < 10) {
-    sprintf(timeString, "%d:%d0", timeStruct->tm_hour, timeStruct->tm_min);
+    sprintf(timeString, "%d:0%d", timeStruct->tm_hour, timeStruct->tm_min);
   } else {
     sprintf(timeString, "%d:%d", timeStruct->tm_hour, timeStruct->tm_min);
   }
@@ -70,9 +70,7 @@ void drawSideMenuBarOutline() {
 }
 // 320x180
 
-// performance critical
 
-// TODO make this actually work
 
 void drawDragDialogue() {
   DrawText("Drag a file or folder!", 30, 30, 20, BLACK);

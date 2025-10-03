@@ -1,3 +1,4 @@
+#include "menus/songplayer.h"
 #include "songlist.h"
 #include "ui.h"
 #include <dirent.h>
@@ -5,12 +6,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "menus/songplayer.h"
 #include <sys/stat.h>
 #include <sys/types.h>
 // sorry windows!
-#include <dirent.h>
 #include "io.h"
+#include <dirent.h>
 #include <unistd.h>
 
 const int TARGETWIDTH = 320;
@@ -29,21 +29,16 @@ extern FilePathList files;
 extern int filePathCounter;
 extern SongList songs;
 
-
 // forward declarations
 void addSongToSongs(Music song, char *name);
 // mutable statics, take that rust
 
 // dont know if i need this tbh
-void draw() {
-  drawUI();
-}
+void draw() { drawUI(); }
 
 void lateUpdate() {}
 
-void onWindowResize() {
-  windowScale = GetScreenWidth() / (float)TARGETWIDTH; 
-}
+void onWindowResize() { windowScale = GetScreenWidth() / (float)TARGETWIDTH; }
 // get mouse coords
 void updateMouse() {
   Vector2 vec = GetMousePosition();
@@ -52,18 +47,22 @@ void updateMouse() {
   mouseCoordinates = (Rectangle){vec.x, vec.y, 3, 3};
 }
 
-
 // it works? i think??
 // My ap csa teacher would be proud
 
 // i love c it was a great idea doing this in C i dont need help
 
-
 // it works!
 
-
-
 void update() {
+  static bool WindowHidden = false;
+  if (IsWindowHidden() && !WindowHidden) {
+    SetTargetFPS(1);
+    WindowHidden = true;
+  } else if (!IsWindowHidden() && WindowHidden) {
+    WindowHidden = false;
+    SetTargetFPS(30);
+  }
   if (IsFileDropped()) {
     loadDroppedSongs();
   }
@@ -81,6 +80,8 @@ void update() {
 
 void loop() {
   while (!WindowShouldClose()) {
+    //TODO it won't continue playing when hidden.. not sure why
+    updateSongPlayer();
     update();
     BeginDrawing();
     BeginTextureMode(target);
