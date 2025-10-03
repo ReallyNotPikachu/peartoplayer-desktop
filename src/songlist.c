@@ -108,7 +108,8 @@ void clearSongList() {
         UnloadMusicStream(songs.songs[i]);
     }
     free(songs.songs);
-    songs.capacity = 0;
+    songs.capacity = 10;
+    songs.songs = (Music*) malloc(sizeof(Music) * 10);
     songs.count = 0;
     // TODO FREE NAMES
 }
