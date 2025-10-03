@@ -57,11 +57,11 @@ void updateMouse() {
 void update() {
     static bool WindowHidden = false;
     if (IsWindowHidden() && !WindowHidden) {
-        SetTargetFPS(30);
+        SetTargetFPS(40);
         WindowHidden = true;
     } else if (!IsWindowHidden() && WindowHidden) {
         WindowHidden = false;
-        SetTargetFPS(30);
+        SetTargetFPS(40);
     }
     if (IsFileDropped()) {
         loadDroppedSongs();
@@ -113,7 +113,7 @@ void init() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     SetConfigFlags(FLAG_VSYNC_HINT);
     InitWindow(1280, 720, "Pearto Player :P");
-    SetTargetFPS(30);
+    SetTargetFPS(40);
     InitAudioDevice();
     initSongList();
     target = LoadRenderTexture(TARGETWIDTH, TARGETHEIGHT);

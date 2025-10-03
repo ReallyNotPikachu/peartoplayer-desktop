@@ -12,6 +12,21 @@ extern Sound teto;
 extern Sound click;
 // load the menu's stuff
 
+void freeInteractionBoxes() {
+    for(int i = 0; i < menu.songBoxes.count; i++) {
+        free(menu.songBoxes.boxes);
+        free(menu.songBoxes.ids);
+        menu.songBoxes.count = 0;
+        menu.songBoxes.capacity = 0;
+    }
+    menu.songBoxes.capacity = 10;
+    menu.songBoxes.boxes = (Rectangle*) malloc(sizeof(Rectangle ) * menu.songBoxes.capacity);
+    menu.songBoxes.ids = (int*) malloc(sizeof(int) * menu.songBoxes.capacity);
+}
+
+
+//Screw it, I don't know how to implement CRC32, so let's just compare all strings
+
 void addSongToMenu(Rectangle rec, int id) {
     if (menu.songBoxes.capacity == menu.songBoxes.count) {
         menu.songBoxes.capacity *= 2;

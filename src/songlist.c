@@ -55,6 +55,7 @@ void calculateFormattedNames(int fromIdx) {
                 newPtr[x] = newPtr[x - 1];
             }
             newPtr[9] = '\n';
+            newPtr[32] = '\0';
             songs.formattedNames[i] = newPtr;
         }
         // make this one go up to three lines
@@ -76,7 +77,7 @@ void calculateFormattedNames(int fromIdx) {
                 newPtr[x] = newPtr[x - 1];
             }
             newPtr[9] = '\n';
-            newPtr[len + 2] = '\0';
+            newPtr[len + 3] = '\0';
             songs.formattedNames[i] = newPtr;
         }
         // make this one two lines

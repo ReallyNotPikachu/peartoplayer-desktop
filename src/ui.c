@@ -50,6 +50,7 @@ void loadUI() {
     textures.logo = LoadTexture("ui/logo.png");
     textures.settings = LoadTexture("ui/5_cog.png");
     textures.playlist = LoadTexture("ui/4_cd.png");
+    textures.pause = LoadTexture("ui/pause.png");
     currentSongPlaying = -1;
     textures.selectSongFolder = LoadTexture("ui/3_folder.png");
     currentMenu = SONGSELECT;

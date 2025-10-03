@@ -108,7 +108,11 @@ void drawSongPlaying() {
             }
         }
     }
+    if(status.isSongPlaying){
     DrawTexture(textures.playButton, (TARGETWIDTH / 2) / 2,
                 ((TARGETHEIGHT - 28) / 2) + 70, WHITE);
+    } else {
+        DrawTexture(textures.pause, playButton.x-1, playButton.y-1, WHITE);
+    }
     // draw the play selector
 }

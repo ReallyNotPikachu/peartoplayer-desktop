@@ -27,6 +27,7 @@ typedef struct {
     Texture2D logo;
     Texture2D playButton; 
     Texture2D settings;
+    Texture2D pause;
     Texture2D playlist;
     Texture2D playMenu;
     Texture2D selectSongFolder;

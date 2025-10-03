@@ -13,6 +13,7 @@ void initSongSelector();
 void updateSongIconMenu();
 void clearSongBoxes();
 void updateSongSelectorMenu();
+void freeInteractionBoxes();
 void createSongBoxes();
 void drawSongIcons();
 void addSongInteractionBox(int id, Rectangle rec);

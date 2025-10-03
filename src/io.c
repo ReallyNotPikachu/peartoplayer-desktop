@@ -1,4 +1,5 @@
 #include "io.h"
+#include "menus/songpicker.h"
 #include "songlist.h"
 #include "ui.h"
 #include "utils.h"
@@ -17,6 +18,7 @@ int isDirectory(const char *path) {
     return S_ISDIR(statbuf.st_mode);
 }
 // if it fails it unloads the sound
+//TODO add filepaths
 void tryToLoadSong(char *name, Music sound) {
     if (IsMusicValid(sound)) {
         addSongToSongs(sound, name);
@@ -24,6 +26,15 @@ void tryToLoadSong(char *name, Music sound) {
         UnloadMusicStream(sound);
     }
 }
+bool isDuplicateFile(char *filePath) {
+    for (int i = 0; i < songs.count; i++) {
+        if (strcmp(filePath, songs.filePaths[i]) == 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // gets a string array of all filepaths from absolutel filepath
 StringArray getAllFilePathsFromDir(const char *dir) {
     struct dirent *de;
@@ -84,6 +95,7 @@ void loadDroppedSongs() {
         }
     }
     calculateFormattedNames(previousCount);
+    freeInteractionBoxes();
     createSongBoxes();
     UnloadDroppedFiles(list);
 }
