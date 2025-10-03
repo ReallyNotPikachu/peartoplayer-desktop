@@ -1,10 +1,10 @@
 #include <raylib.h>
 #ifndef SONGPICKER_H
 typedef struct {
-    Rectangle* boxes;
+    Rectangle *boxes;
     int count;
     int capacity;
-    int* ids;
+    int *ids;
 } InteractionBoxArray;
 typedef struct {
     InteractionBoxArray songBoxes;
@@ -14,7 +14,7 @@ void updateSongIconMenu();
 void clearSongBoxes();
 void updateSongSelectorMenu();
 void createSongBoxes();
-void drawSongIcons() ;
+void drawSongIcons();
 void addSongInteractionBox(int id, Rectangle rec);
 #define SONGPICKER_H
 #endif

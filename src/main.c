@@ -41,10 +41,10 @@ void lateUpdate() {}
 void onWindowResize() { windowScale = GetScreenWidth() / (float)TARGETWIDTH; }
 // get mouse coords
 void updateMouse() {
-  Vector2 vec = GetMousePosition();
-  vec.x = vec.x / windowScale;
-  vec.y = vec.y / windowScale;
-  mouseCoordinates = (Rectangle){vec.x, vec.y, 3, 3};
+    Vector2 vec = GetMousePosition();
+    vec.x = vec.x / windowScale;
+    vec.y = vec.y / windowScale;
+    mouseCoordinates = (Rectangle){vec.x, vec.y, 3, 3};
 }
 
 // it works? i think??
@@ -55,78 +55,78 @@ void updateMouse() {
 // it works!
 
 void update() {
-  static bool WindowHidden = false;
-  if (IsWindowHidden() && !WindowHidden) {
-    SetTargetFPS(1);
-    WindowHidden = true;
-  } else if (!IsWindowHidden() && WindowHidden) {
-    WindowHidden = false;
-    SetTargetFPS(30);
-  }
-  if (IsFileDropped()) {
-    loadDroppedSongs();
-  }
-  // debug logic
-  if (IsKeyPressed(KEY_F3)) {
-    printf("%d\n", songs.count);
-    fflush(NULL);
-  }
-  if (IsWindowResized())
-    onWindowResize();
-  updateMouse();
-  // update everything else after the mouse cuz yes
-  updateUI();
+    static bool WindowHidden = false;
+    if (IsWindowHidden() && !WindowHidden) {
+        SetTargetFPS(30);
+        WindowHidden = true;
+    } else if (!IsWindowHidden() && WindowHidden) {
+        WindowHidden = false;
+        SetTargetFPS(30);
+    }
+    if (IsFileDropped()) {
+        loadDroppedSongs();
+    }
+    // debug logic
+    if (IsKeyPressed(KEY_F3)) {
+        printf("%d\n", songs.count);
+        fflush(NULL);
+    }
+    if (IsWindowResized())
+        onWindowResize();
+    updateMouse();
+    // update everything else after the mouse cuz yes
+    updateUI();
 }
 
 void loop() {
-  while (!WindowShouldClose()) {
-    //TODO it won't continue playing when hidden.. not sure why
-    updateSongPlayer();
-    update();
-    BeginDrawing();
-    BeginTextureMode(target);
-    ClearBackground(WHITE);
-    BeginMode2D(camera);
-    {
-      draw();
+    while (!WindowShouldClose()) {
+        // TODO it won't continue playing when hidden.. not sure why
+        updateSongPlayer();
+        update();
+        BeginDrawing();
+        BeginTextureMode(target);
+        ClearBackground(WHITE);
+        BeginMode2D(camera);
+        {
+            draw();
+        }
+        EndMode2D();
+        EndTextureMode();
+        DrawTexturePro(target.texture,
+                       (Rectangle){0.0f, 0.0f, (float)target.texture.width,
+                                   -(float)target.texture.height},
+                       (Rectangle){-windowScale, -windowScale,
+                                   GetScreenWidth() + (windowScale * 2),
+                                   GetScreenHeight() + (windowScale * 2)},
+                       (Vector2){0.0f, 0.0f}, 0.0f, WHITE);
+        // draw non render textures stuff i guess
+        EndDrawing();
     }
-    EndMode2D();
-    EndTextureMode();
-    DrawTexturePro(target.texture,
-                   (Rectangle){0.0f, 0.0f, (float)target.texture.width,
-                               -(float)target.texture.height},
-                   (Rectangle){-windowScale, -windowScale,
-                               GetScreenWidth() + (windowScale * 2),
-                               GetScreenHeight() + (windowScale * 2)},
-                   (Vector2){0.0f, 0.0f}, 0.0f, WHITE);
-    // draw non render textures stuff i guess
-    EndDrawing();
-  }
-  CloseWindow();
-  // we dont need to unload ANYTHING!!
-  // let the OPERATING SYSTEM handle it!
-  // theres probably a reason to but idrc im lazy
+    CloseWindow();
+    // we dont need to unload ANYTHING!!
+    // let the OPERATING SYSTEM handle it!
+    // theres probably a reason to but idrc im lazy
 }
 
 void init() {
-  // SetConfigFlags(FLAG_VSYNC_HINT);
-  SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-  SetConfigFlags(FLAG_VSYNC_HINT);
-  InitWindow(1280, 720, "Pearto Player :P");
-  SetTargetFPS(30);
-  InitAudioDevice();
-  initSongList();
-  target = LoadRenderTexture(TARGETWIDTH, TARGETHEIGHT);
-  windowScale = GetScreenWidth() / (float)TARGETWIDTH;
-  camera = (Camera2D){{0.0f, 0.0f}, {0.0f, 0.0f}, 0.0f, 1.0f};
-  loadUI();
-  puts("\nHappy music listening");
-  SetWindowMinSize(TARGETWIDTH, TARGETHEIGHT);
+    // SetConfigFlags(FLAG_VSYNC_HINT);
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+    SetConfigFlags(FLAG_VSYNC_HINT);
+    InitWindow(1280, 720, "Pearto Player :P");
+    SetTargetFPS(30);
+    InitAudioDevice();
+    initSongList();
+    target = LoadRenderTexture(TARGETWIDTH, TARGETHEIGHT);
+    windowScale = GetScreenWidth() / (float)TARGETWIDTH;
+    camera = (Camera2D){{0.0f, 0.0f}, {0.0f, 0.0f}, 0.0f, 1.0f};
+    loadUI();
+    puts("\nHappy music listening");
+    SetWindowMinSize(TARGETWIDTH, TARGETHEIGHT);
 }
 
 // ahh yes so elegant and refined, init and then loop
 int main(void) {
-  init();
-  loop();
-  return 0;
+    init();
+    loop();
+    return 0;
 }
