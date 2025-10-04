@@ -1,10 +1,12 @@
 #include "songlist.h"
 #include "ui.h"
 #include <raylib.h>
+#include "config.h"
 /*
 Rust programmers hate this one simple trick!
 global static mutables!
 */
+PlaybackConfig playbackConfig;
 CurrentMenu currentMenu;
 int currentSongPlaying;
 Camera2D camera;

@@ -13,6 +13,16 @@ int findLastIndexOfChar(const char *str, char target) {
     return idx;
 }
 
+//https://stackoverflow.com/questions/427477/fastest-way-to-clamp-a-real-fixed-floating-point-value
+double clamp(double d, double min, double max) {
+  const double t = d < min ? min : d;
+  return t > max ? max : t;
+}
+float clampf(float d, float min, float max) {
+  const float t = d < min ? min : d;
+  return t > max ? max : t;
+}
+
 char *getSongNameWithoutSlashes(char *song) {
     // THIS IS TORTURE
     int len = strlen(song);

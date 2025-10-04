@@ -9,6 +9,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 // sorry windows!
+#include "config.h"
 #include "io.h"
 #include <dirent.h>
 #include <unistd.h>
@@ -22,6 +23,7 @@ You aren't loading a 1TB wav file are you? this should be fine..
 (lol just increase your swapping capacity and 1TB should work)
 */
 extern Camera2D camera;
+extern PlaybackConfig playbackConfig;
 extern RenderTexture target;
 extern float windowScale;
 extern Rectangle mouseCoordinates;
@@ -30,7 +32,7 @@ extern int filePathCounter;
 extern SongList songs;
 
 // forward declarations
-void addSongToSongs(Music song, char *name);
+void addSongToSongs(Music song, char *name, char *filePath);
 // mutable statics, take that rust
 
 // dont know if i need this tbh
@@ -112,6 +114,7 @@ void init() {
     // SetConfigFlags(FLAG_VSYNC_HINT);
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     SetConfigFlags(FLAG_VSYNC_HINT);
+    SetTargetFPS(40);
     InitWindow(1280, 720, "Pearto Player :P");
     SetTargetFPS(40);
     InitAudioDevice();
@@ -122,10 +125,12 @@ void init() {
     loadUI();
     puts("\nHappy music listening");
     SetWindowMinSize(TARGETWIDTH, TARGETHEIGHT);
+    playbackConfig = (PlaybackConfig){.isLooping = true};
 }
 
 // ahh yes so elegant and refined, init and then loop
-int main(void) {
+// we are not parsing args just yet but I guess I can take them..
+int main(int argc, char **argv) {
     init();
     loop();
     return 0;

@@ -4,7 +4,7 @@
 #include <raylib.h>
 int isDirectory(const char *path);
 StringArray getAllFilePathsFromDir(const char *dir);
-void tryToLoadSong(char *name, Music sound);
+void tryToLoadSong(char *name, Music sound,char* filePath);
 void loadSongFolder();
 void loadDroppedSongs();
 #endif // IO_H

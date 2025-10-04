@@ -1,6 +1,7 @@
 #include "songplayer.h"
 #include "../songlist.h"
 #include "../ui.h"
+#include "../utils.h"
 #include <math.h>
 #include <raylib.h>
 #include <stdio.h>
@@ -66,17 +67,17 @@ void updateSongPlayer() {
         // SIMD i found off of stack overflow, basically now I can't compile
         // this for arm, TODO write a normal Clampf function for arm and 32 bit
         // targets
-        _mm_store_ss(
-            &status.songProgressPercent,
-            _mm_min_ss(_mm_max_ss(_mm_set_ss(status.songProgressPercent),
-                                  _mm_set_ss(0.0f)),
-                       _mm_set_ss(1.0f)));
+        // _mm_store_ss(
+        //     &status.songProgressPercent,
+        //     _mm_min_ss(_mm_max_ss(_mm_set_ss(status.songProgressPercent),
+        //                           _mm_set_ss(0.0f)),
+        //                _mm_set_ss(1.0f)));
         // note to self Satellite L775D supports SSE3
+        status.songProgressPercent =
+            clampf(status.songProgressPercent, 0.0f, 1.0f);
         playSong();
     }
 }
-
-void updateSongThatsPlaying() {}
 
 void drawSongPlayer() {
     if (songs.count > 0) {
@@ -84,7 +85,17 @@ void drawSongPlayer() {
     }
 }
 
+/*
+We need to add looping and playlist shuffling/selection i guess.
+*/
+
 void drawSongPlaying() {
+    const Rectangle playbackBar = (Rectangle){
+        33,
+        (3 * TARGETHEIGHT) / 4.0f,
+        (TARGETWIDTH / 2.0f) - 40,
+        10,
+    };
     const int fontSize = 17;
     status.textSize = MeasureText(songs.names[status.currentIdx], fontSize);
     // draw
@@ -99,8 +110,9 @@ void drawSongPlaying() {
                   ((TARGETWIDTH / 2.0f) - 40) * status.songProgressPercent, 10,
                   GREEN);
     // draw play button
-    if (CheckCollisionRecs(playButton, mouseCoordinates)) {
+    if (CheckCollisionRecs(mouseCoordinates, playButton)) {
         DrawRectangleRec(playButton, LIGHTGRAY);
+
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
             if (!IsSoundPlaying(click)) {
                 PlaySound(click);
@@ -108,11 +120,27 @@ void drawSongPlaying() {
             }
         }
     }
-    if(status.isSongPlaying){
-    DrawTexture(textures.playButton, (TARGETWIDTH / 2) / 2,
-                ((TARGETHEIGHT - 28) / 2) + 70, WHITE);
+    // process seeking
+    if (CheckCollisionRecs(playbackBar, mouseCoordinates)) {
+        DrawLineEx(
+            (Vector2){mouseCoordinates.x, playbackBar.y},
+            (Vector2){mouseCoordinates.x, playbackBar.y + playbackBar.height},
+            2, RED);
+        if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+            float timeToGoTo =
+                (GetMusicTimeLength(songs.songs[status.currentIdx])) *
+                (mouseCoordinates.x - playbackBar.x) / playbackBar.width;
+            SeekMusicStream(songs.songs[status.currentIdx], timeToGoTo);
+        }
+    }
+    // forgot that the pause icon shows when its playing and vice versa, just
+    // change it to not lol
+    if (!status.isSongPlaying) {
+        DrawTexture(textures.playButton, (TARGETWIDTH / 2) / 2,
+                    ((TARGETHEIGHT - 28) / 2) + 70, WHITE);
     } else {
-        DrawTexture(textures.pause, playButton.x-1, playButton.y-1, WHITE);
+        DrawTexture(textures.pause, playButton.x - 1, playButton.y - 1, WHITE);
     }
     // draw the play selector
 }
+

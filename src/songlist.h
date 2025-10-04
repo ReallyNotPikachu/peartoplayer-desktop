@@ -12,7 +12,7 @@ typedef struct {
     char **formattedNames;
     char **filePaths;
 } SongList;
-void addSongToSongs(Music song, char *name);
+void addSongToSongs(Music song, char *name, char* filePath);
 void clearSongList();
 void calculateFormattedNames(int fromIdx);
 void initSongList();

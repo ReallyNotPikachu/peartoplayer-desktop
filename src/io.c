@@ -19,13 +19,15 @@ int isDirectory(const char *path) {
 }
 // if it fails it unloads the sound
 //TODO add filepaths
-void tryToLoadSong(char *name, Music sound) {
+void tryToLoadSong(char *name, Music sound, char* filepath) {
     if (IsMusicValid(sound)) {
-        addSongToSongs(sound, name);
+        addSongToSongs(sound, name, filepath);
     } else {
         UnloadMusicStream(sound);
     }
 }
+// Screw it, I don't know how to implement CRC32, so let's just compare all strings
+// "Optimized" for AMD A6 3400M @1.4GHZ 
 bool isDuplicateFile(char *filePath) {
     for (int i = 0; i < songs.count; i++) {
         if (strcmp(filePath, songs.filePaths[i]) == 0) {
@@ -70,9 +72,8 @@ void loadADirectory(const char *path) {
             fullPath = appendStrs(nameWithSlash, files.strs[i]);
             free(nameWithSlash);
         }
-        tryToLoadSong(files.strs[i], LoadMusicStream(fullPath));
+        tryToLoadSong(files.strs[i], LoadMusicStream(fullPath), fullPath);
         printf("Loaded song at: %s\n", fullPath);
-        free(fullPath);
     }
     StringArrayFree(&files);
 }
@@ -85,13 +86,13 @@ void loadDroppedSongs() {
         if (isDirectory(list.paths[i])) {
             loadADirectory(list.paths[i]);
         } else {
-            char *temp =
+            char *fullFilePath =
                 malloc((sizeof(char) * strlen(list.paths[i])) + sizeof(char));
-            strcpy(temp, list.paths[i]);
-            char *name = getSongNameWithoutSlashes(temp);
-            printf("%s\n", temp);
-            tryToLoadSong(name, LoadMusicStream(temp));
-            free(temp);
+            strcpy(fullFilePath, list.paths[i]);
+            char *name = getSongNameWithoutSlashes(fullFilePath);
+            printf("%s\n", fullFilePath);
+            tryToLoadSong(name, LoadMusicStream(fullFilePath), fullFilePath);
+            free(fullFilePath);
         }
     }
     calculateFormattedNames(previousCount);

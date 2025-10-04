@@ -13,19 +13,17 @@ extern Sound click;
 // load the menu's stuff
 
 void freeInteractionBoxes() {
-    for(int i = 0; i < menu.songBoxes.count; i++) {
+    for (int i = 0; i < menu.songBoxes.count; i++) {
         free(menu.songBoxes.boxes);
         free(menu.songBoxes.ids);
         menu.songBoxes.count = 0;
         menu.songBoxes.capacity = 0;
     }
     menu.songBoxes.capacity = 10;
-    menu.songBoxes.boxes = (Rectangle*) malloc(sizeof(Rectangle ) * menu.songBoxes.capacity);
-    menu.songBoxes.ids = (int*) malloc(sizeof(int) * menu.songBoxes.capacity);
+    menu.songBoxes.boxes =
+        (Rectangle *)malloc(sizeof(Rectangle) * menu.songBoxes.capacity);
+    menu.songBoxes.ids = (int *)malloc(sizeof(int) * menu.songBoxes.capacity);
 }
-
-
-//Screw it, I don't know how to implement CRC32, so let's just compare all strings
 
 void addSongToMenu(Rectangle rec, int id) {
     if (menu.songBoxes.capacity == menu.songBoxes.count) {
@@ -39,6 +37,7 @@ void addSongToMenu(Rectangle rec, int id) {
     menu.songBoxes.ids[menu.songBoxes.count] = id;
     menu.songBoxes.count++;
 }
+// please call this somewhere!
 void initSongSelector() {
     menu.songBoxes.boxes = malloc(sizeof(Rectangle) * 10);
     menu.songBoxes.capacity = 10;
@@ -60,7 +59,7 @@ void createSongBoxes() {
         x += padding;
     }
 }
-// performance critical
+// Draws the song icons inside of the song picker menu.
 void drawSongIcons() {
     const int extraYPadding = 16;
     for (int i = 0; i < menu.songBoxes.count; i++) {
