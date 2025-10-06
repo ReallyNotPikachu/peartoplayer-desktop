@@ -87,8 +87,6 @@ void drawSongIcons() {
 }
 void processScrolling() {
     static int totalOffset = 0;
-    printf("bottom: %d, top:%d, current:%d\n", menu.bottomLimit, 10,
-           totalOffset);
     // my desktop's bios calls it this
     const float mouseMovementDelta = 15.0f;
     // TODO add limits to scrolling

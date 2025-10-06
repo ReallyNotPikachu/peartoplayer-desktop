@@ -56,6 +56,8 @@ void updateMouse() {
 
 // it works!
 
+//I refactored and moved the function the above comments were referring to a long time ago so
+//idk lol.. probably that stupid formattedstrings one
 void update() {
     static bool WindowHidden = false;
     if (IsWindowHidden() && !WindowHidden) {

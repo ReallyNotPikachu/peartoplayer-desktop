@@ -13,6 +13,7 @@ void drawSongIcons();
 void drawUI();
 void updateUI();
 void createSongBoxes();
+void drawDragDialogue();
 void startPlayingSong(int id);
 
 typedef enum {

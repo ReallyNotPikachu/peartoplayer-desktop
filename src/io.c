@@ -27,7 +27,7 @@ void tryToLoadSong(char *name, Music sound, char *filepath) {
     }
 }
 // Screw it, I don't know how to implement CRC32, so let's just compare all
-// strings "Optimized" for AMD A6 3400M @1.4GHZ
+// strings... "Optimized" for AMD A6 3400M @1.4GHZ
 bool isDuplicateFile(char *filePath) {
     for (int i = 0; i < songs.count; i++) {
         if (strcmp(filePath, songs.filePaths[i]) == 0) {

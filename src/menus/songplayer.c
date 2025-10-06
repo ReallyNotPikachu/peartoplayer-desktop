@@ -80,6 +80,8 @@ void updateSongPlayer() {
 void drawSongPlayer() {
     if (songs.count > 0) {
         drawSongPlaying();
+    } else {
+        drawDragDialogue();
     }
 }
 
