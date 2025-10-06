@@ -6,6 +6,8 @@ typedef struct {
     int capacity;
     int *ids;
 } InteractionBoxArray;
+
+
 typedef struct {
     InteractionBoxArray songBoxes;
     int bottomLimit;

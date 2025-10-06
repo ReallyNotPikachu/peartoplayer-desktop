@@ -1,4 +1,4 @@
-# This is not in a usable state yet!
+# This is not *really* in a usable state yet!
 You can loop, pause, and select songs, but other than that...
 # README.md
 
@@ -6,7 +6,20 @@ Pearto player is a Music player built using *only* raylib! It runs using around 
 
 <br>I am not rewriting this in Rust. (Atleast not for now)
 
+## Features
+- Plays songs
+- You can drag and drop files
+- Looping songs
 
-## Inspiration (Pomegranate 3DS)
+## Inspiration (Pomegranate 3DS) and other stuff i guess
 [<img src="./readmestuf/88x31.jpg">](<https://sheepy.moe>)
 [<img src="./readmestuf/funny.gif">](<https://colorcomputerarchive.com/repo/Documents/Books/The%20C%20Programming%20Language%20%28Kernighan%20Ritchie%29.pdf>)
+[<img src= "./readmestuf/3ds.png">](<https://3ds.hacks.guide>)
+[<img src = "./readmestuf/virovirokun.gif">](<https://deltarune.com>)
+[<img src = "./readmestuf/cd_rom.gif">](<https://github.com/ReallyNotPikachu/peartoplayer-desktop/blob/main/LICENSE>)
+[<img src="./readmestuf/linuxgames_button.gif">](<https://www.protondb.com/>)
+<br><br>
+<img src="./readmestuf/amda63400m.png">
+# Building
+make sure you have raylib installed on your system, for arch:
+``sudo pacman -S raylib``

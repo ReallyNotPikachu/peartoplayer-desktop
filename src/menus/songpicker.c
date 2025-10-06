@@ -3,6 +3,7 @@
 #include "../ui.h"
 #include "songplayer.h"
 #include <raylib.h>
+#include <raymath.h>
 #include <stdio.h>
 #include <stdlib.h>
 static SongPickerMenu menu;
@@ -45,6 +46,8 @@ void initSongSelector() {
     menu.songBoxes.ids = malloc(sizeof(int) * menu.songBoxes.capacity);
 }
 
+
+
 void createSongBoxes() {
     const int padding = 64;
     const int extraYPadding = 24;
@@ -61,6 +64,7 @@ void createSongBoxes() {
         menu.bottomLimit = y + extraYPadding * -1;
     }
 }
+
 // Draws the song icons inside of the song picker menu.
 void drawSongIcons() {
     const int extraYPadding = 24;

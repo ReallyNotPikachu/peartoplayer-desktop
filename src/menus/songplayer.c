@@ -141,6 +141,5 @@ void drawSongPlaying() {
     } else {
         DrawTexture(textures.pause, playButton.x - 1, playButton.y - 1, WHITE);
     }
-    // draw the play selector
 }
 
