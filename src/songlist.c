@@ -36,9 +36,7 @@ void initSongList() {
     puts("[info] songlist ready!");
 }
 
-// calculate formatted names, three lines of 11 chars each for 33 chars maxs
-// possible optimization: calculate how much memory we need from malloc
-// there's no way this function works  TODO rework this out on paper
+//TODO rework this function I think its still broken
 void calculateFormattedNames(int fromIdx) {
     // i wrote this while hugging a blahaj
     for (int i = fromIdx; i < songs.count; i++) {

@@ -23,6 +23,15 @@ float clampf(float d, float min, float max) {
   return t > max ? max : t;
 }
 
+void appendToStringArray(StringArray *arr, char *toAppend) {
+    if (arr->count == arr->capacity) {
+        arr->capacity *= 2;
+        arr->strs = realloc(arr->strs, sizeof(char *) * arr->capacity);
+    }
+    arr->strs[arr->count] = toAppend;
+    arr->count ++;
+}
+
 char *getSongNameWithoutSlashes(char *song) {
     // THIS IS TORTURE
     int len = strlen(song);

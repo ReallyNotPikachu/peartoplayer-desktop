@@ -10,6 +10,7 @@ extern SongList songs;
 extern Rectangle mouseCoordinates;
 extern Sound teto;
 extern Sound click;
+extern CurrentMenu currentMenu;
 // load the menu's stuff
 
 void freeInteractionBoxes() {
@@ -46,7 +47,7 @@ void initSongSelector() {
 
 void createSongBoxes() {
     const int padding = 64;
-    const int extraYPadding = 16;
+    const int extraYPadding = 24;
     const int size = 50;
     int x, y = 0;
     for (int i = 0; i < songs.count; i++) {
@@ -57,11 +58,12 @@ void createSongBoxes() {
         Rectangle rec = {x + 40, y + extraYPadding + 25, size, size};
         addSongToMenu(rec, i);
         x += padding;
+        menu.bottomLimit = y + extraYPadding * -1;
     }
 }
 // Draws the song icons inside of the song picker menu.
 void drawSongIcons() {
-    const int extraYPadding = 16;
+    const int extraYPadding = 24;
     for (int i = 0; i < menu.songBoxes.count; i++) {
         // if the mouse is inside of it
         if (CheckCollisionRecs(menu.songBoxes.boxes[i], mouseCoordinates)) {
@@ -83,14 +85,30 @@ void drawSongIcons() {
                  menu.songBoxes.boxes[i].y + 51, 8, BLACK);
     }
 }
-
-void updateSongSelectorMenu() {
+void processScrolling() {
+    static int totalOffset = 0;
+    printf("bottom: %d, top:%d, current:%d\n", menu.bottomLimit, 10,
+           totalOffset);
     // my desktop's bios calls it this
-    const float mouseMovementDelta = 3.0f;
+    const float mouseMovementDelta = 15.0f;
     // TODO add limits to scrolling
-    //  if the mouse didn't move don't do this (battery life :D)
     int move = GetMouseWheelMove() * mouseMovementDelta;
-    for (int i = 0; i < menu.songBoxes.count; i++) {
-        menu.songBoxes.boxes[i].y -= move;
+
+    if (totalOffset > 10 && move < 0 /*this shouldn't work*/) {
+        move = 0;
+    }
+    if (totalOffset < menu.bottomLimit * -1 && move > 0) {
+        move = 0;
+    }
+    totalOffset -= move;
+    if (move != 0) {
+        for (int i = 0; i < menu.songBoxes.count; i++) {
+            menu.songBoxes.boxes[i].y -= move;
+        }
+    }
+}
+void updateSongSelectorMenu() {
+    if(currentMenu == SONGPLAYING){
+        processScrolling();
     }
 }

@@ -55,8 +55,6 @@ void togglePlaying() {
 
 void updateSongPlayer() {
     if (songs.count > 0) {
-        printf("%f\n", status.songProgressPercent);
-        printf("Song paused: %s", status.isSongPlaying ? "No" : "Yes");
         if (status.isSongPlaying) {
             fflush(stdout);
             UpdateMusicStream(songs.songs[status.currentIdx]);

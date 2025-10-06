@@ -114,9 +114,9 @@ void init() {
     // SetConfigFlags(FLAG_VSYNC_HINT);
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     SetConfigFlags(FLAG_VSYNC_HINT);
-    SetTargetFPS(40);
+    SetTargetFPS(30);
     InitWindow(1280, 720, "Pearto Player :P");
-    SetTargetFPS(40);
+    SetTargetFPS(30);
     InitAudioDevice();
     initSongList();
     target = LoadRenderTexture(TARGETWIDTH, TARGETHEIGHT);

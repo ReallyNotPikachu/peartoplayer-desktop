@@ -8,6 +8,7 @@ typedef struct {
 } InteractionBoxArray;
 typedef struct {
     InteractionBoxArray songBoxes;
+    int bottomLimit;
 } SongPickerMenu;
 void initSongSelector();
 void updateSongIconMenu();

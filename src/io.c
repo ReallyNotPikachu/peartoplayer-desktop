@@ -18,16 +18,16 @@ int isDirectory(const char *path) {
     return S_ISDIR(statbuf.st_mode);
 }
 // if it fails it unloads the sound
-//TODO add filepaths
-void tryToLoadSong(char *name, Music sound, char* filepath) {
+// TODO add filepaths
+void tryToLoadSong(char *name, Music sound, char *filepath) {
     if (IsMusicValid(sound)) {
         addSongToSongs(sound, name, filepath);
     } else {
         UnloadMusicStream(sound);
     }
 }
-// Screw it, I don't know how to implement CRC32, so let's just compare all strings
-// "Optimized" for AMD A6 3400M @1.4GHZ 
+// Screw it, I don't know how to implement CRC32, so let's just compare all
+// strings "Optimized" for AMD A6 3400M @1.4GHZ
 bool isDuplicateFile(char *filePath) {
     for (int i = 0; i < songs.count; i++) {
         if (strcmp(filePath, songs.filePaths[i]) == 0) {
@@ -36,6 +36,7 @@ bool isDuplicateFile(char *filePath) {
     }
     return false;
 }
+
 
 // gets a string array of all filepaths from absolutel filepath
 StringArray getAllFilePathsFromDir(const char *dir) {
@@ -51,9 +52,9 @@ StringArray getAllFilePathsFromDir(const char *dir) {
             } else if (strcmp(de->d_name, "..") == 0) {
                 continue;
             }
-            if (arr.count == arr.capacity) {
+            if(arr.count == arr.capacity){
                 arr.capacity *= 2;
-                arr.strs = realloc(arr.strs, sizeof(char *) * arr.capacity);
+                arr.strs = realloc(arr.strs, sizeof(char*) * arr.capacity);
             }
             arr.strs[i] = malloc(sizeof(char) * 256 /*Sizeof de->d_name*/);
             arr.count++;
